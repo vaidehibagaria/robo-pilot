@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  rcm-framework:
+    build: .
+    container_name: rcm-robot-control
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4-turbo-preview}
+      - OPENAI_MAX_TOKENS=${OPENAI_MAX_TOKENS:-1000}
+      - OPENAI_TEMPERATURE=${OPENAI_TEMPERATURE:-0.1}
+      - OPENAI_TIMEOUT=${OPENAI_TIMEOUT:-30}
+      - RCM_SERVER_PORT=8000
+      - RCM_SERVER_HOST=0.0.0.0
+      - DEFAULT_ROBOT_ID=${DEFAULT_ROBOT_ID:-turtlebot}
+      - DEFAULT_RCM_PATH=${DEFAULT_RCM_PATH:-turtlebot_rcm.json}
+    volumes:
+      - .:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      - DISPLAY=${DISPLAY}
+    stdin_open: true
+    tty: true
+    networks:
+      - rcm-network
+
+networks:
+  rcm-network:
+    driver: bridge
+

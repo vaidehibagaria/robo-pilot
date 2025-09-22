@@ -1,0 +1,15 @@
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+httpx>=0.25.0
+pydantic>=2.0.0
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# ROS 2 dependencies (install via apt, not pip)
+# sudo apt install ros-humble-desktop
+# sudo apt install ros-humble-turtlebot3-gazebo
+# sudo apt install ros-humble-turtlebot3-navigation2
+# sudo apt install ros-humble-nav2-bringup
+
+# Python ROS 2 client library (if needed via pip)
+# rclpy  # Usually installed with ROS 2 system packages

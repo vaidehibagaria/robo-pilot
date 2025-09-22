@@ -1,0 +1,588 @@
+{
+  "metadata": {
+    "robot_name": "turtlebot3_burger",
+    "source": "/home/vaidehi/RCM_Initial_MVP/RCM/.urdf_runtime_tmp.urdf",
+    "generator_version": "rcm_pinocchio_v0.1"
+  },
+  "links": {},
+  "locomotion": {
+    "type": "differential",
+    "inferred_from": "urdf",
+    "confidence": 0.95
+  },
+  "end_effectors": [],
+  "has_gripper": false,
+  "gripper_type": "none",
+  "gripper_evidence": [],
+  "workspaces": {},
+  "primitives": [
+    {
+      "primitive_id": "move_base",
+      "signature": "move_base(goal:Pose)->Status",
+      "preconditions": [
+        "battery_level>0.2"
+      ],
+      "effects": [
+        "at(goal)"
+      ],
+      "source": "urdf",
+      "confidence": 0.95
+    },
+    {
+      "primitive_id": "set_base_twist",
+      "signature": "set_base_twist(vx:float, vy:float, wz:float)->Status",
+      "preconditions": [
+        "battery_level>0.2"
+      ],
+      "effects": [
+        "base_twist_set(vx,vy,wz)"
+      ],
+      "source": "urdf",
+      "confidence": 0.9
+    },
+    {
+      "primitive_id": "drive_straight",
+      "signature": "drive_straight(distance_m:float, speed_mps:float)->Status",
+      "preconditions": [
+        "battery_level>0.2"
+      ],
+      "effects": [
+        "base_translated(distance_m)"
+      ],
+      "source": "urdf",
+      "confidence": 0.85
+    },
+    {
+      "primitive_id": "rotate_in_place",
+      "signature": "rotate_in_place(yaw_rad:float, yaw_rate_rps:float)->Status",
+      "preconditions": [
+        "battery_level>0.2"
+      ],
+      "effects": [
+        "base_rotated(yaw_rad)"
+      ],
+      "source": "urdf",
+      "confidence": 0.85
+    },
+    {
+      "primitive_id": "stop",
+      "signature": "stop()->Status",
+      "preconditions": [],
+      "effects": [
+        "base_twist_set(0,0,0)"
+      ],
+      "source": "urdf",
+      "confidence": 0.95
+    }
+  ],
+  "dynamics": {
+    "mass_kg": 1.00173292,
+    "center_of_mass_in_base": [
+      -0.004045988625391287,
+      0.0,
+      0.030862797680643258
+    ],
+    "mass_confidence": 0.9
+  },
+  "joints": {
+    "base_joint": {
+      "type": "fixed",
+      "parent": "base_footprint",
+      "child": "base_link",
+      "origin": {
+        "xyz": [
+          0.0,
+          0.0,
+          0.01
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": null,
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null,
+        "initial_position": 0.0
+      },
+      "mimic": null,
+      "dynamics": {
+        "damping": null,
+        "friction": null
+      }
+    },
+    "wheel_left_joint": {
+      "type": "continuous",
+      "parent": "base_link",
+      "child": "wheel_left_link",
+      "origin": {
+        "xyz": [
+          0.0,
+          0.08,
+          0.023
+        ],
+        "rpy": [
+          -1.57,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null,
+        "initial_position": 0.0
+      },
+      "mimic": null,
+      "dynamics": {
+        "damping": null,
+        "friction": null
+      }
+    },
+    "wheel_right_joint": {
+      "type": "continuous",
+      "parent": "base_link",
+      "child": "wheel_right_link",
+      "origin": {
+        "xyz": [
+          0.0,
+          -0.08,
+          0.023
+        ],
+        "rpy": [
+          -1.57,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null,
+        "initial_position": 0.0
+      },
+      "mimic": null,
+      "dynamics": {
+        "damping": null,
+        "friction": null
+      }
+    },
+    "caster_back_joint": {
+      "type": "fixed",
+      "parent": "base_link",
+      "child": "caster_back_link",
+      "origin": {
+        "xyz": [
+          -0.081,
+          0.0,
+          -0.004
+        ],
+        "rpy": [
+          -1.57,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": null,
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null,
+        "initial_position": 0.0
+      },
+      "mimic": null,
+      "dynamics": {
+        "damping": null,
+        "friction": null
+      }
+    },
+    "imu_joint": {
+      "type": "fixed",
+      "parent": "base_link",
+      "child": "imu_link",
+      "origin": {
+        "xyz": [
+          -0.032,
+          0.0,
+          0.068
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": null,
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null,
+        "initial_position": 0.0
+      },
+      "mimic": null,
+      "dynamics": {
+        "damping": null,
+        "friction": null
+      }
+    },
+    "scan_joint": {
+      "type": "fixed",
+      "parent": "base_link",
+      "child": "base_scan",
+      "origin": {
+        "xyz": [
+          -0.032,
+          0.0,
+          0.172
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": null,
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null,
+        "initial_position": 0.0
+      },
+      "mimic": null,
+      "dynamics": {
+        "damping": null,
+        "friction": null
+      }
+    }
+  },
+  "transmissions": [],
+  "gazebo_plugins": [],
+  "default_pose": {
+    "base_joint": 0.0,
+    "wheel_left_joint": 0.0,
+    "wheel_right_joint": 0.0,
+    "caster_back_joint": 0.0,
+    "imu_joint": 0.0,
+    "scan_joint": 0.0
+  },
+  "kinematics": {
+    "root_link": "base_footprint",
+    "link_transforms_base": {
+      "base_footprint": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "base_link": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.01
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "wheel_left_link": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0007963267107332633,
+          0.9999996829318346,
+          0.08
+        ],
+        [
+          0.0,
+          -0.9999996829318346,
+          0.0007963267107332633,
+          0.033
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "wheel_right_link": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0007963267107332633,
+          0.9999996829318346,
+          -0.08
+        ],
+        [
+          0.0,
+          -0.9999996829318346,
+          0.0007963267107332633,
+          0.033
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "caster_back_link": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.081
+        ],
+        [
+          0.0,
+          0.0007963267107332633,
+          0.9999996829318346,
+          0.0
+        ],
+        [
+          0.0,
+          -0.9999996829318346,
+          0.0007963267107332633,
+          0.006
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "imu_link": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.032
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.078
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "base_scan": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.032
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.182
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "srdf": null
+  },
+  "sensors": [
+    {
+      "link": "imu_link",
+      "type": "imu",
+      "pose_in_base": {
+        "xyz": [
+          -0.032,
+          0.0,
+          0.078
+        ]
+      },
+      "fov_hint": null
+    },
+    {
+      "link": "base_scan",
+      "type": "lidar",
+      "pose_in_base": {
+        "xyz": [
+          -0.032,
+          0.0,
+          0.182
+        ]
+      },
+      "fov_hint": null
+    },
+    {
+      "link": null,
+      "type": "lidar",
+      "pose_in_base": {
+        "xyz": null
+      },
+      "topic": "/scan",
+      "source": "ros_runtime"
+    },
+    {
+      "link": null,
+      "type": "imu",
+      "pose_in_base": {
+        "xyz": null
+      },
+      "topic": "/imu",
+      "source": "ros_runtime"
+    }
+  ],
+  "footprint": {
+    "center_xy": [
+      -0.020714285714285716,
+      0.0
+    ],
+    "radius_m": 0.08263825768161537
+  },
+  "link_semantics": {
+    "base_footprint": {
+      "materials": []
+    },
+    "base_link": {
+      "materials": [
+        {
+          "name": "light_black",
+          "rgba": null
+        }
+      ]
+    },
+    "wheel_left_link": {
+      "materials": [
+        {
+          "name": "dark",
+          "rgba": null
+        }
+      ]
+    },
+    "wheel_right_link": {
+      "materials": [
+        {
+          "name": "dark",
+          "rgba": null
+        }
+      ]
+    },
+    "caster_back_link": {
+      "materials": []
+    },
+    "imu_link": {
+      "materials": []
+    },
+    "base_scan": {
+      "materials": [
+        {
+          "name": "dark",
+          "rgba": null
+        }
+      ]
+    }
+  },
+  "safety_profile": {
+    "emergency_stop_latency_ms": null,
+    "hard_stops_supported": null,
+    "monitoring_signals": []
+  },
+  "provenance": {
+    "urdf_path": "/home/vaidehi/RCM_Initial_MVP/RCM/.urdf_runtime_tmp.urdf"
+  },
+  "confidence_overall": 0.75,
+  "ros_interfaces": {
+    "joint_state": {
+      "joint_states": "/joint_states"
+    },
+    "tf": {
+      "tf": "/tf",
+      "tf_static": "/tf_static"
+    },
+    "clock": "/clock"
+  }
+}
