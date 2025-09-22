@@ -10,7 +10,7 @@ Transform any robot into an AI-controllable system using natural language comman
 
 ## ✨ Features
 
-- 🗣️ **Natural Language Control**: Control robots using plain English commands
+- 🗣️ **Natural Language Control**: Control robots using natural language prompts
 - 🔧 **No-Code Setup**: Works with any robot via Docker
 - 🤖 **Multi-Model Support**: GPT-4, Claude, or any OpenAI-compatible API
 - 🛡️ **Safety First**: Built-in constraint enforcement and capability validation
@@ -162,17 +162,11 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [FastAPI](https://fastapi.tiangolo.com/) and [OpenAI](https://openai.com/)
 - Robot kinematics powered by [Pinocchio](https://github.com/stack-of-tasks/pinocchio)
 - ROS 2 integration for real robot control
 
-## 📞 Support
 
-- 📖 [Documentation](docs/)
-- 🐛 [Report Issues](https://github.com/yourusername/rcm-robot-control/issues)
-- 💬 [Discussions](https://github.com/yourusername/rcm-robot-control/discussions)
-
----
 
