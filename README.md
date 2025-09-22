@@ -1,4 +1,4 @@
-# 🤖 RCM Robot Control Framework
+# 🤖 RCM Framework
 
 **No-code natural language control for any robot using AI language models**
 
