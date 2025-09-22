@@ -23,6 +23,13 @@ Transform any robot into an AI-controllable system using natural language comman
 
 ### Option 1: Docker (Recommended)
 
+**Step 1: Launch your robot**
+```bash
+# First, launch your robot in one terminal
+ros2 launch your_robot_package your_robot_launch_file.launch.py
+```
+
+**Step 2: Run the RCM framework**
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/rcm-robot-control.git
@@ -31,12 +38,21 @@ cd rcm-robot-control
 # Set your OpenAI API key
 export OPENAI_API_KEY="your-api-key-here"
 
-# Run with Docker
+# Run with Docker (in another terminal)
 docker-compose up --build
 ```
 
+> **Note**: The framework automatically detects your robot from ROS topics (`/robot_description` and `/robot_description_semantic`). No need to specify robot files - it gets everything from the running ROS system.
+
 ### Option 2: Local Installation
 
+**Step 1: Launch your robot**
+```bash
+# First, launch your robot in one terminal
+ros2 launch your_robot_package your_robot_launch_file.launch.py
+```
+
+**Step 2: Run the RCM framework**
 ```bash
 # Clone and setup
 git clone https://github.com/yourusername/rcm-robot-control.git
@@ -48,7 +64,7 @@ pip install -r requirements.txt
 # Setup GPT integration
 python setup_gpt.py
 
-# Generate RCM from your robot's URDF
+# Generate RCM from ROS robot description (in another terminal)
 python urdf_to_rcm.py -o my_robot_rcm.json
 
 # Run the framework
@@ -102,15 +118,57 @@ The framework uses RCMs to understand robot capabilities:
 
 ## 🛠️ Adding Your Robot
 
-1. **Generate RCM from ROS robot description**:
+1. **Launch your robot**:
+   ```bash
+   ros2 launch your_robot_package your_robot_launch_file.launch.py
+   ```
+
+2. **Generate RCM from ROS robot description**:
    ```bash
    python urdf_to_rcm.py -o my_robot_rcm.json
    ```
 
-2. **Run with your robot**:
+3. **Run with your robot**:
    ```bash
    python main_ros.py --json my_robot_rcm.json
    ```
+
+## 🐳 Docker & ROS Integration
+
+The framework works seamlessly with Docker because it **does not search the filesystem** for robot files. Instead, it:
+
+- **Connects to ROS topics** (`/robot_description`, `/robot_description_semantic`) 
+- **Gets robot data from running ROS nodes** (not from files)
+- **Works across Docker containers** as long as ROS topics are accessible
+
+### Docker Network Setup
+
+For Docker to access ROS topics from your host system, ensure your `docker-compose.yml` includes:
+
+```yaml
+network_mode: "host"
+```
+
+This allows the Docker container to access the same network as your ROS system, enabling topic communication.
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**"Did not receive /robot_description from ROS"**
+- Make sure your robot is launched and running
+- Check that `/robot_description` topic is published: `ros2 topic list | grep robot_description`
+- Verify ROS environment is sourced in the terminal where you launch the robot
+
+**Docker can't connect to ROS topics**
+- Ensure `network_mode: "host"` is set in `docker-compose.yml`
+- Make sure ROS_DOMAIN_ID is consistent between host and container
+- Check firewall settings that might block local communication
+
+**Robot not responding to commands**
+- Verify the robot is properly launched and controllers are active
+- Check ROS topic names match your robot's configuration
+- Ensure the generated RCM file contains the correct robot capabilities
 
 ## 🔧 Configuration
 

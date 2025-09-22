@@ -4,8 +4,7 @@ services:
   rcm-framework:
     build: .
     container_name: rcm-robot-control
-    ports:
-      - "8000:8000"
+    network_mode: "host"  # Use host networking for ROS communication
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4-turbo-preview}
@@ -14,8 +13,7 @@ services:
       - OPENAI_TIMEOUT=${OPENAI_TIMEOUT:-30}
       - RCM_SERVER_PORT=8000
       - RCM_SERVER_HOST=0.0.0.0
-      - DEFAULT_ROBOT_ID=${DEFAULT_ROBOT_ID:-turtlebot}
-      - DEFAULT_RCM_PATH=${DEFAULT_RCM_PATH:-turtlebot_rcm.json}
+      - GENERATED_RCM_PATH=${GENERATED_RCM_PATH:-generated_robot_rcm.json}
     volumes:
       - .:/app
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -23,10 +21,4 @@ services:
       - DISPLAY=${DISPLAY}
     stdin_open: true
     tty: true
-    networks:
-      - rcm-network
-
-networks:
-  rcm-network:
-    driver: bridge
 
