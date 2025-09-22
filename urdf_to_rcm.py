@@ -1280,18 +1280,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("urdf", nargs='?', help="path to URDF file (optional; defaults to ROS topics)")
     parser.add_argument("--sdf", help="optional path to SDF model file to extract sensors", default=None)
-    parser.add_argument("--auto", action='store_true', help="(deprecated) No longer falls back to TurtleBot; ROS topics are used by default")
-    parser.add_argument("--from-ros", action='store_true', help="Force fetching descriptions from ROS topics (default behavior if no URDF path provided)")
     parser.add_argument("-o", "--output", default="rcm_pinocchio.json")
     parser.add_argument("--samples", type=int, default=400)
     args = parser.parse_args()
 
     urdf_path = args.urdf
     sdf_path = args.sdf
-
-    # Deprecated flag notice
-    if args.auto:
-        print("Note: --auto fallback has been removed. Using ROS topics (or provided URDF path) only.")
 
     runtime_urdf_xml = None
     runtime_srdf_xml = None
@@ -1301,8 +1295,9 @@ def main():
     discovered_services_with_types: list = []
     discovered_cm_controllers: list = []
 
-    # If no URDF path is provided, or --from-ros is specified, fetch from ROS topics
-    if urdf_path is None or args.from_ros:
+    # If no URDF path is provided, fetch from ROS topics by default
+    if urdf_path is None:
+        print("No URDF path provided. Fetching robot description from ROS topics...")
         runtime_urdf_xml, runtime_srdf_xml, runtime_sensors, discovered_topic_names, discovered_topics_with_types, discovered_services_with_types, discovered_cm_controllers = collect_runtime_ros_data(timeout_sec=15.0)
         if not runtime_urdf_xml:
             raise SystemExit("Did not receive /robot_description from ROS. Please launch your robot and try again.")

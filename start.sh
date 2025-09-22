@@ -22,9 +22,8 @@ OPENAI_TIMEOUT=30
 RCM_SERVER_PORT=8000
 RCM_SERVER_HOST=0.0.0.0
 
-# Robot Configuration
-DEFAULT_ROBOT_ID=turtlebot
-DEFAULT_RCM_PATH=turtlebot_rcm.json
+# Generated RCM Configuration
+GENERATED_RCM_PATH=generated_robot_rcm.json
 EOF
     echo "✓ Created .env template file"
     echo ""
@@ -50,72 +49,33 @@ else
     DEMO_MODE=false
 fi
 
-# Check if RCM file exists, if not generate one
-if [ ! -f "$DEFAULT_RCM_PATH" ]; then
-    echo "📋 RCM file not found. Generating default RCM..."
-    
-    # Check if we have a URDF file to convert
-    if [ -f "turtlebot3_burger.urdf" ]; then
-        echo "   Converting URDF to RCM..."
-        python3 urdf_to_rcm.py turtlebot3_burger.urdf -o "$DEFAULT_RCM_PATH"
-    else
-        echo "   Using built-in TurtleBot RCM..."
-        # The turtlebot_rcm.json should already exist in the repo
-        if [ ! -f "turtlebot_rcm.json" ]; then
-            echo "   Creating basic TurtleBot RCM..."
-            cat > turtlebot_rcm.json << 'EOF'
-{
-  "robot_id": "turtlebot",
-  "name": "TurtleBot3 Burger",
-  "description": "Mobile robot with differential drive",
-  "capabilities": {
-    "locomotion": {
-      "type": "differential_drive",
-      "max_linear_velocity": 0.22,
-      "max_angular_velocity": 2.84,
-      "wheel_base": 0.16
-    },
-    "sensors": {
-      "lidar": {
-        "frame": "base_scan",
-        "range_min": 0.12,
-        "range_max": 3.5,
-        "angle_min": -3.14159,
-        "angle_max": 3.14159
-      }
-    }
-  },
-  "constraints": {
-    "workspace": {
-      "x_min": -10.0,
-      "x_max": 10.0,
-      "y_min": -10.0,
-      "y_max": 10.0,
-      "z_min": 0.0,
-      "z_max": 0.5
-    }
-  }
-}
-EOF
-        fi
-        cp turtlebot_rcm.json "$DEFAULT_RCM_PATH"
-    fi
-    echo "✓ RCM file created: $DEFAULT_RCM_PATH"
+# Generate RCM from ROS robot description
+echo "📋 Generating RCM from ROS robot description..."
+echo "   This will automatically detect your robot from ROS topics"
+
+# Run urdf_to_rcm.py to generate RCM from ROS
+python3 urdf_to_rcm.py -o "$GENERATED_RCM_PATH"
+
+if [ $? -eq 0 ]; then
+    echo "✓ RCM file generated successfully: $GENERATED_RCM_PATH"
+else
+    echo "❌ Failed to generate RCM from ROS robot description"
+    echo "   Make sure your robot is running and publishing /robot_description topic"
+    exit 1
 fi
 
 # Start the framework
 echo ""
 echo "🚀 Starting RCM Robot Control Framework..."
-echo "   Robot: $DEFAULT_ROBOT_ID"
-echo "   RCM: $DEFAULT_RCM_PATH"
+echo "   RCM: $GENERATED_RCM_PATH"
 echo "   Server: http://localhost:8000"
 echo ""
 
 if [ "$DEMO_MODE" = true ]; then
     echo "🎭 Running in DEMO mode (no GPT integration)"
-    python3 main.py --rcm "$DEFAULT_RCM_PATH" --robot-id "$DEFAULT_ROBOT_ID" --demo
+    python3 main_ros.py --json "$GENERATED_RCM_PATH" --demo
 else
     echo "🤖 Running with GPT integration"
-    python3 main.py --rcm "$DEFAULT_RCM_PATH" --robot-id "$DEFAULT_ROBOT_ID" --api-key "$OPENAI_API_KEY"
+    python3 main_ros.py --json "$GENERATED_RCM_PATH" --api-key "$OPENAI_API_KEY"
 fi
 

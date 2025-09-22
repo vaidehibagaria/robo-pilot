@@ -221,8 +221,7 @@ async def run_demo_conversation():
 
 def main():
     parser = argparse.ArgumentParser(description="RCM Robot Control Framework")
-    parser.add_argument("--rcm", help="Path to RCM JSON file")
-    parser.add_argument("--robot-id", default="default", help="Robot ID")
+    parser.add_argument("--json", help="Path to generated RCM JSON file", required=True)
     parser.add_argument("--port", type=int, default=8000, help="Server port")
     parser.add_argument("--demo", action="store_true", help="Run demo conversation")
     parser.add_argument("--server-only", action="store_true", help="Run server only")
@@ -235,8 +234,8 @@ def main():
         return
     
     framework = RCMFramework(
-        rcm_path=args.rcm,
-        robot_id=args.robot_id,
+        rcm_path=args.json,
+        robot_id="robot",  # Generic robot ID
         server_port=args.port,
         api_key=args.api_key
     )

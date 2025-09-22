@@ -10,13 +10,14 @@ Transform any robot into an AI-controllable system using natural language comman
 
 ## ✨ Features
 
-- 🗣️ **Natural Language Control**: "Move forward 2 meters and turn left"
+- 🗣️ **Natural Language Control**: Control robots using plain English commands
 - 🔧 **No-Code Setup**: Works with any robot via Docker
 - 🤖 **Multi-Model Support**: GPT-4, Claude, or any OpenAI-compatible API
 - 🛡️ **Safety First**: Built-in constraint enforcement and capability validation
 - 📊 **Real-time Tracking**: Live position monitoring and path visualization
 - 🔄 **Multi-Robot**: Support for multiple robots simultaneously
 - 🚀 **One-Click Deploy**: Docker container with everything included
+- 🧠 **Semantic Understanding**: Advanced environment understanding with specialized LLM for grasping tasks
 
 ## 🚀 Quick Start
 
@@ -47,8 +48,11 @@ pip install -r requirements.txt
 # Setup GPT integration
 python setup_gpt.py
 
+# Generate RCM from your robot's URDF
+python urdf_to_rcm.py -o my_robot_rcm.json
+
 # Run the framework
-python main.py --rcm turtlebot_rcm.json --robot-id turtlebot
+python main_ros.py --json my_robot_rcm.json
 ```
 
 ## 💬 Example Usage
@@ -56,7 +60,7 @@ python main.py --rcm turtlebot_rcm.json --robot-id turtlebot
 Once running, simply type natural language commands:
 
 ```
-You: Move forward 2 meters and then turn left 90 degrees
+You: Move forward and then turn left
 Robot: ✓ Executing drive_straight(2.0m) then rotate_in_place(90°)
 
 You: What sensors do you have?
@@ -68,8 +72,9 @@ Robot: ✓ Emergency stop activated
 
 ## 🔧 Supported Robots
 
-- **TurtleBot3** (Burger, Waffle, Waffle Pi)
-- **UR5/UR10** robotic arms
+- **Any ROS-compatible robot** with URDF description
+- **Mobile robots** with differential drive
+- **Manipulator arms** with joint control
 - **Custom robots** via URDF conversion
 
 ## 📋 Robot Capability Manifest (RCM)
@@ -78,7 +83,7 @@ The framework uses RCMs to understand robot capabilities:
 
 ```json
 {
-  "robot_id": "turtlebot",
+  "robot_id": "robot",
   "capabilities": {
     "locomotion": {
       "type": "differential_drive",
@@ -97,14 +102,14 @@ The framework uses RCMs to understand robot capabilities:
 
 ## 🛠️ Adding Your Robot
 
-1. **Generate RCM from URDF**:
+1. **Generate RCM from ROS robot description**:
    ```bash
-   python urdf_to_rcm.py your_robot.urdf -o my_robot_rcm.json
+   python urdf_to_rcm.py -o my_robot_rcm.json
    ```
 
 2. **Run with your robot**:
    ```bash
-   python main.py --rcm my_robot_rcm.json --robot-id my_robot
+   python main_ros.py --json my_robot_rcm.json
    ```
 
 ## 🔧 Configuration
